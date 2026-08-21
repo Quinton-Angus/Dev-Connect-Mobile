@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Dev Connect",
+    "slug": "Dev-Connect-Mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/App_icon.png",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#080808",
+          "image": "./assets/Splash_icon.png",
+          "resizeMode": "contain",
+          "imageWidth": 75
+        }
+      ],
+      "expo-font"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "62b5faa0-585a-43e6-a37e-af3aaa4725d9"
+      }
+    },
+    "android": {
+      "package": "com.quintondev.DevConnectMobile"
+    }
+  }
+}

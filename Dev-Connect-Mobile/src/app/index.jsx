@@ -46,7 +46,7 @@ export default function Index() {
       const sessions = await getSessionData()
 
       if (!sessions.error) {
-        const JSX = sessions.map(session => (
+        const JSX = sessions.data.map(session => (
           <View style={sessionCardStyles.cardWrapper} key={session.id}>
             <View style={sessionCardStyles.card}>
               <Text style={sessionCardStyles.id}>#{session.id}</Text>
@@ -57,8 +57,6 @@ export default function Index() {
         ))
 
         setSessionData(JSX)
-
-        setLoading(false)
       }
 
       setLoading(false)

@@ -1,4 +1,4 @@
-import { Text, View, Pressable, Image, ScrollView, Animated, Easing } from "react-native";
+import { Text, View, Pressable, Image, ScrollView, Animated, Easing, Alert } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import mainStyles from "../../styling/main.js"
@@ -38,41 +38,51 @@ export default function Index() {
     ).start()
   }, [])
 
-  useEffect(() => {
-    
+  async function mountSessions() {
     setLoading(true)
 
-    async function mountSessions() {
+    try {
       const sessions = await getSessionData()
 
-      if (!sessions.error) {
-        const JSX = sessions.data.map(session => (
-          <View style={sessionCardStyles.cardWrapper} key={session.id}>
-            <View style={sessionCardStyles.card}>
-              <Text style={sessionCardStyles.id}>#{session.id}</Text>
-              <Text style={sessionCardStyles.detail}>Started: {session.createdAt}</Text>
-              <View style={sessionCardStyles.statusBar}><Text style={sessionCardStyles.status}>{session.status}</Text></View>
-            </View>
-          </View>
-        ))
-
-        setSessionData(JSX)
+      if (sessions.error) {
+        Alert.alert(
+          "Failed to load sessions",
+          String(sessions.error)
+        )
+        return
       }
 
+      const JSX = sessions.data.map(session => (
+        <View style={sessionCardStyles.cardWrapper} key={session.id}>
+          <View style={sessionCardStyles.card}>
+            <Text style={sessionCardStyles.id}>#{session.id}</Text>
+            <Text style={sessionCardStyles.detail}>Started: {session.createdAt}</Text>
+            <View style={sessionCardStyles.statusBar}><Text style={sessionCardStyles.status}>{session.status}</Text></View>
+          </View>
+        </View>
+      ))
+
+      setSessionData(JSX)
+    } catch (error) {
+      Alert.alert(
+        "Unexpected error",
+        String(error)
+      )
+    } finally {
       setLoading(false)
     }
+  }
 
+  useEffect(() => {
     mountSessions()
-    
   }, [])
-
 
   return (
     <SafeAreaView style={mainStyles.container}>
       <View style={mainStyles.header}>
         <Pressable><Image style={mainStyles.exitIcon} source={exitIcon} /></Pressable>
         <Image style={mainStyles.primaryLogo} source={logo} />
-        <Pressable><Image style={mainStyles.reloadIcon} source={reloadIcon} /></Pressable>
+        <Pressable onPress={mountSessions}><Image style={mainStyles.reloadIcon} source={reloadIcon} /></Pressable>
       </View>
       <View style={mainStyles.content}>
         <View style={[mainStyles.loadingContainer, {display: loading ? 'flex' : 'none'}]}>

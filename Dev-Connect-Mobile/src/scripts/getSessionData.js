@@ -5,7 +5,7 @@ export default async function sessionData() {
         headers: {'Content-Type': 'application/json'}
     })
 
-    const result = await data.json().error
+    const result = await data.json()
 
     if (!result) {
         return {error: 'Failed to fetch API data'}

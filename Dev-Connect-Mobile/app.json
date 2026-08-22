@@ -24,7 +24,8 @@
           "color": "#080808",
           "defaultChannel": "default"
         }
-      ]
+      ],
+      "./plugins/withNotificationIcon"
     ],
     "extra": {
       "router": {},

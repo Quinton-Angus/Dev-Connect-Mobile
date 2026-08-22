@@ -113,7 +113,7 @@ export default function Index() {
   }
 
   useEffect(() => {
-    notificationHnadler()
+    notificationHnadler(showAlert)
     mountSessions()
   }, [])
 

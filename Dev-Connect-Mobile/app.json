@@ -25,7 +25,8 @@
       }
     },
     "android": {
-      "package": "com.quintondev.DevConnectMobile"
+      "package": "com.quintondev.DevConnectMobile",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }

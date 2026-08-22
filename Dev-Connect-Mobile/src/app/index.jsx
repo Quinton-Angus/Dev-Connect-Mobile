@@ -1,10 +1,11 @@
-import { Text, View, Pressable, Image, ScrollView, Animated, Easing, Alert, BackHandler } from "react-native";
+import { Text, View, Pressable, Image, ScrollView, Animated, Easing, BackHandler } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import mainStyles from "../../styling/main.js"
 import sessionCardStyles from "../../styling/sessionCard.js"
 import getSessionData from "../scripts/getSessionData.js"
 import notificationHnadler from '../scripts/notification.js'
+import DevAlert from "../components/DevAlert.jsx"
 
 import logo from "../../assets/logo.png"
 import reloadIcon from "../../assets/reloadIcon.png"
@@ -38,8 +39,8 @@ export default function Index() {
   const nodeAnimation = useRef(new Animated.Value(0)).current
 
   const [ loading, setLoading ] = useState(false)
-
   const [ sessionData, setSessionData ] = useState([])
+  const [ alertData, setAlertData ] = useState({ visible: false, title: '', message: '', buttons: [] })
 
   const getStatusColour = (status) => {
     switch (String(status).toUpperCase()) {
@@ -54,6 +55,10 @@ export default function Index() {
     }
   }
 
+  function showAlert(title, message, buttons = [{ text: 'Dismiss' }]) {
+    setAlertData({ visible: true, title, message, buttons: buttons.map(button => ({ ...button, onPress: () => { setAlertData(current => ({ ...current, visible: false })); button.onPress?.() } })) })
+  }
+
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -63,7 +68,6 @@ export default function Index() {
               easing: Easing.inOut(Easing.ease),
               useNativeDriver: false
           }),
-
           Animated.timing(nodeAnimation, {
               toValue: 0,
               duration: 1000,
@@ -81,10 +85,10 @@ export default function Index() {
       const sessions = await getSessionData()
 
       if (sessions.error) {
-        Alert.alert(
-          "Failed to load sessions",
-          String(sessions.error)
-        )
+        showAlert("Failed to load sessions", String(sessions.error), [
+          { text: 'Dismiss', primary: false },
+          { text: 'Retry', onPress: mountSessions }
+        ])
         return
       }
 
@@ -102,10 +106,7 @@ export default function Index() {
 
       setSessionData(JSX)
     } catch (error) {
-      Alert.alert(
-        "Unexpected error",
-        String(error)
-      )
+      showAlert("Unexpected error", String(error))
     } finally {
       setLoading(false)
     }
@@ -132,7 +133,7 @@ export default function Index() {
           <View style={mainStyles.nodeWrapper}>
             <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})}]} />
             <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})}]} />
-            <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})}]} />
+            <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})} />
           </View>
         </View>
         <View style={[mainStyles.sessionContainer, {display: loading ? 'none' : 'flex'}]}>
@@ -146,6 +147,12 @@ export default function Index() {
         </View>
       </View>
       <View style={mainStyles.footer}><Text style={mainStyles.copyright}>Dev Connect, © Quinton DEV 2026</Text></View>
+      <DevAlert
+        visible={alertData.visible}
+        title={alertData.title}
+        message={alertData.message}
+        buttons={alertData.buttons}
+      />
     </SafeAreaView>
   );
 }

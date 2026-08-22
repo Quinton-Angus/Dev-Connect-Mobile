@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications'
-import { Alert, Platform } from 'react-native'
+import { Platform } from 'react-native'
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -10,7 +10,7 @@ Notifications.setNotificationHandler({
     })
 })
 
-export default async function notificationHandler() {
+export default async function notificationHandler(showAlert) {
     try {
         if (Platform.OS !== 'android') {
             return
@@ -32,7 +32,7 @@ export default async function notificationHandler() {
         }
 
         if (finalStatus !== 'granted') {
-            Alert.alert(
+            showAlert?.(
                 'Notification permission denied',
                 'Permission denied, you will not receive session notifications from Dev Connect.'
             )
@@ -44,7 +44,7 @@ export default async function notificationHandler() {
         })).data
 
         if (!token) {
-            Alert.alert(
+            showAlert?.(
                 'Notification error',
                 'Dev Connect could not obtain an Expo push token for this device.'
             )
@@ -71,15 +71,15 @@ export default async function notificationHandler() {
 
         if (!registrar.ok) {
             const error = data?.error ?? `HTTP ${registrar.status}`
-            Alert.alert(
+            showAlert?.(
                 'Notification error',
-                `Dev Connect encountered an error while attempting to register this device for notifications.\n\n${error}`
+                `Dev Connect encountered an error while attempting to register this device for notifications.\n\n${typeof error === 'string' ? error : JSON.stringify(error)}`
             )
         }
     } catch (error) {
-        Alert.alert(
+        showAlert?.(
             'Notification error',
-            `Dev Connect could not set up notifications.\n\n${error instanceof Error ? error.message : String(error)}`
+            `Dev Connect could not set up notifications.\n\n${error instanceof Error ? error.message : typeof error === 'string' ? error : JSON.stringify(error)}`
         )
     }
 }

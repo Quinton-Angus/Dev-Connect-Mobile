@@ -1,6 +1,15 @@
 import * as Notifications from 'expo-notifications'
 import { Alert, Platform } from 'react-native'
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowBanner: true,
+        shouldShowList: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true
+    })
+})
+
 export default async function notificationHandler() {
     try {
         if (Platform.OS !== 'android') {

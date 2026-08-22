@@ -20,6 +20,7 @@
       [
         "expo-notifications",
         {
+          "icon": "./assets/nott.png",
           "color": "#080808",
           "defaultChannel": "default"
         }

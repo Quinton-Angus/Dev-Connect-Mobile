@@ -10,6 +10,28 @@ import logo from "../../assets/logo.png"
 import reloadIcon from "../../assets/reloadIcon.png"
 import exitIcon from "../../assets/exitIcon.png"
 
+function formatDateTime(value) {
+  if (!value) return 'N/A'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return 'N/A'
+  return date.toLocaleString()
+}
+
+function formatDuration(session) {
+  if (session.status === 'EXPIRED') return '5mins'
+
+  const start = new Date(session.createdAt)
+  const end = session.endedAt ? new Date(session.endedAt) : new Date()
+  const milliseconds = end - start
+
+  if (Number.isNaN(milliseconds) || milliseconds < 0) return 'N/A'
+
+  const totalSeconds = Math.floor(milliseconds / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+
+  return `${minutes}min ${seconds}s`
+}
 
 export default function Index() {
 
@@ -24,7 +46,7 @@ export default function Index() {
       case 'PENDING':
         return '#D8C7A3'
       case 'EXPIRED':
-        return '#C9B8D9'
+        return '#E0A6A6'
       case 'TERMINATED':
         return '#A9C9B8'
       default:
@@ -70,7 +92,9 @@ export default function Index() {
         <View style={sessionCardStyles.cardWrapper} key={session.id}>
           <View style={sessionCardStyles.card}>
             <Text style={sessionCardStyles.id}>#{session.id}</Text>
-            <Text style={sessionCardStyles.detail}>Started: {session.createdAt}</Text>
+            <Text style={sessionCardStyles.detail}>Started: {formatDateTime(session.createdAt)}</Text>
+            <Text style={sessionCardStyles.detail}>Ended: {formatDateTime(session.endedAt)}</Text>
+            <Text style={sessionCardStyles.detail}>Duration: {formatDuration(session)}</Text>
             <View style={[sessionCardStyles.statusBar, { backgroundColor: getStatusColour(session.status) }]}><Text style={sessionCardStyles.status}>{session.status}</Text></View>
           </View>
         </View>

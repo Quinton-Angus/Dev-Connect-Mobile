@@ -16,7 +16,14 @@
           "imageWidth": 75
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "color": "#080808",
+          "defaultChannel": "default"
+        }
+      ]
     ],
     "extra": {
       "router": {},

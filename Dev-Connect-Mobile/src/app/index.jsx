@@ -1,9 +1,10 @@
 import { Text, View, Pressable, Image, ScrollView, Animated, Easing, Alert } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, backHandler } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import mainStyles from "../../styling/main.js"
 import sessionCardStyles from "../../styling/sessionCard.js"  
 import getSessionData from "../scripts/getSessionData.js"
+import notificationHnadler from '../scripts/notification.js'
 
 import logo from "../../assets/logo.png"
 import reloadIcon from "../../assets/reloadIcon.png"
@@ -74,13 +75,14 @@ export default function Index() {
   }
 
   useEffect(() => {
+    notificationHnadler()
     mountSessions()
   }, [])
 
   return (
     <SafeAreaView style={mainStyles.container}>
       <View style={mainStyles.header}>
-        <Pressable><Image style={mainStyles.exitIcon} source={exitIcon} /></Pressable>
+        <Pressable><Image style={mainStyles.exitIcon} source={exitIcon} onPress={() => {backHandler.exitApp()}}/></Pressable>
         <Image style={mainStyles.primaryLogo} source={logo} />
         <Pressable onPress={mountSessions}><Image style={mainStyles.reloadIcon} source={reloadIcon} /></Pressable>
       </View>
@@ -99,4 +101,4 @@ export default function Index() {
       <View style={mainStyles.footer}><Text style={mainStyles.copyright}>Dev Connect, © Quinton DEV 2026</Text></View>
     </SafeAreaView>
   );
-}
+} 

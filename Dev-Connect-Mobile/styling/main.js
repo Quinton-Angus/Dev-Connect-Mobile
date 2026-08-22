@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 25,
-        paddingVertical: 10,
+        paddingVertical: 15,
         marginBottom: 50,
-        height: 31
+        height: 41
     },
 
     exitIcon: {
@@ -51,7 +51,9 @@ const styles = StyleSheet.create({
 
     sessionScroll: {
         flex: 1,
-        gap: 25
+        gap: 25,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
     },
 
     footer: {

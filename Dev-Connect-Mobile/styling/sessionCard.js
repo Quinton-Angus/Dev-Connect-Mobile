@@ -8,7 +8,7 @@ export default StyleSheet.create({
 
     card: {
         width: '100%',
-        height: 105,
+        height: 125,
         backgroundColor: '#101010',
         padding: 20,
         justifyContent: 'flex-start',
@@ -32,8 +32,8 @@ export default StyleSheet.create({
     statusBar: {
         width: '100%',
         height: 20,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
         paddingLeft: 20,
         backgroundColor: '#FFFFFF'
     },

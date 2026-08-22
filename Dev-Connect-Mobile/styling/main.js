@@ -14,14 +14,13 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 25,
         paddingVertical: 15,
-        marginBottom: 50,
+        marginBottom: 25,
         height: 41
     },
 
     exitIcon: {
         width: 21,
         height: 21
-
     },
 
     primaryLogo: {
@@ -51,9 +50,12 @@ const styles = StyleSheet.create({
 
     sessionScroll: {
         flex: 1,
+    },
+
+    sessionScrollContent: {
+        paddingTop: 10,
+        paddingBottom: 25,
         gap: 25,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
     },
 
     footer: {

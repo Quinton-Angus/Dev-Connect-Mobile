@@ -18,7 +18,8 @@ export default async function notificationHandler() {
 
         await Notifications.setNotificationChannelAsync('default', {
             name: 'Default',
-            importance: Notifications.AndroidImportance.MAX
+            importance: Notifications.AndroidImportance.MAX,
+            lightColor: '#080808'
         })
 
         const { status: existingStatus } = await Notifications.getPermissionsAsync()

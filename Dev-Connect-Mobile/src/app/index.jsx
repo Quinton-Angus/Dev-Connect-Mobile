@@ -1,8 +1,8 @@
-import { Text, View, Pressable, Image, ScrollView, Animated, Easing, Alert } from "react-native";
-import { useEffect, useRef, useState, backHandler } from "react";
+import { Text, View, Pressable, Image, ScrollView, Animated, Easing, Alert, BackHandler } from "react-native";
+import { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import mainStyles from "../../styling/main.js"
-import sessionCardStyles from "../../styling/sessionCard.js"  
+import sessionCardStyles from "../../styling/sessionCard.js"
 import getSessionData from "../scripts/getSessionData.js"
 import notificationHnadler from '../scripts/notification.js'
 
@@ -82,9 +82,13 @@ export default function Index() {
   return (
     <SafeAreaView style={mainStyles.container}>
       <View style={mainStyles.header}>
-        <Pressable><Image style={mainStyles.exitIcon} source={exitIcon} onPress={() => {backHandler.exitApp()}}/></Pressable>
+        <Pressable onPress={() => BackHandler.exitApp()} hitSlop={10}>
+          <Image style={mainStyles.exitIcon} source={exitIcon} />
+        </Pressable>
         <Image style={mainStyles.primaryLogo} source={logo} />
-        <Pressable onPress={mountSessions}><Image style={mainStyles.reloadIcon} source={reloadIcon} /></Pressable>
+        <Pressable onPress={mountSessions} hitSlop={10}>
+          <Image style={mainStyles.reloadIcon} source={reloadIcon} />
+        </Pressable>
       </View>
       <View style={mainStyles.content}>
         <View style={[mainStyles.loadingContainer, {display: loading ? 'flex' : 'none'}]}>
@@ -95,10 +99,16 @@ export default function Index() {
           </View>
         </View>
         <View style={[mainStyles.sessionContainer, {display: loading ? 'none' : 'flex'}]}>
-          <ScrollView style={mainStyles.sessionScroll}>{sessionData}</ScrollView>
+          <ScrollView
+            style={mainStyles.sessionScroll}
+            contentContainerStyle={mainStyles.sessionScrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            {sessionData}
+          </ScrollView>
         </View>
       </View>
       <View style={mainStyles.footer}><Text style={mainStyles.copyright}>Dev Connect, © Quinton DEV 2026</Text></View>
     </SafeAreaView>
   );
-} 
+}

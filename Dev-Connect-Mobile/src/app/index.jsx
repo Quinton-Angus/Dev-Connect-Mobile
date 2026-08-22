@@ -19,6 +19,19 @@ export default function Index() {
 
   const [ sessionData, setSessionData ] = useState([])
 
+  const getStatusColour = (status) => {
+    switch (String(status).toUpperCase()) {
+      case 'PENDING':
+        return '#D8C7A3'
+      case 'EXPIRED':
+        return '#C9B8D9'
+      case 'TERMINATED':
+        return '#A9C9B8'
+      default:
+        return '#C4C4C4'
+    }
+  }
+
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -58,7 +71,7 @@ export default function Index() {
           <View style={sessionCardStyles.card}>
             <Text style={sessionCardStyles.id}>#{session.id}</Text>
             <Text style={sessionCardStyles.detail}>Started: {session.createdAt}</Text>
-            <View style={sessionCardStyles.statusBar}><Text style={sessionCardStyles.status}>{session.status}</Text></View>
+            <View style={[sessionCardStyles.statusBar, { backgroundColor: getStatusColour(session.status) }]}><Text style={sessionCardStyles.status}>{session.status}</Text></View>
           </View>
         </View>
       ))

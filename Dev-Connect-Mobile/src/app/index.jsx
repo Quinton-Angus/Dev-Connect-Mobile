@@ -133,7 +133,7 @@ export default function Index() {
           <View style={mainStyles.nodeWrapper}>
             <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})}]} />
             <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})}]} />
-            <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})} />
+            <Animated.View style={[mainStyles.loadingNode, {backgroundColor: nodeAnimation.interpolate({inputRange:[0,1], outputRange: ['#0B0B0B','#FFFFFF']})}]} />
           </View>
         </View>
         <View style={[mainStyles.sessionContainer, {display: loading ? 'none' : 'flex'}]}>

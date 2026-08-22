@@ -35,7 +35,8 @@
     },
     "android": {
       "package": "com.quintondev.DevConnectMobile",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "primaryColor": "#080808"
     }
   }
 }

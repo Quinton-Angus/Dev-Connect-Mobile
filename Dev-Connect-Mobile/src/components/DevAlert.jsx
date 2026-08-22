@@ -1,4 +1,4 @@
-import { Animated, Pressable, Text, View } from 'react-native'
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useEffect, useRef } from 'react'
 
 export default function DevAlert({ visible, title, message, buttons = [] }) {
@@ -47,7 +47,7 @@ export default function DevAlert({ visible, title, message, buttons = [] }) {
   )
 }
 
-const styles = {
+const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 1000,
@@ -57,8 +57,7 @@ const styles = {
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#000000',
-    opacity: 0.55
+    backgroundColor: '#000000'
   },
   dialog: {
     width: '100%',
@@ -113,4 +112,4 @@ const styles = {
   primaryButtonText: {
     color: '#FFFFFF'
   }
-}
+})

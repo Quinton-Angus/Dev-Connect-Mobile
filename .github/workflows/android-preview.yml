@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build Android Preview APK
+    name: Build Android Preview APK with EAS Local
     runs-on: ubuntu-latest
 
     steps:
@@ -35,13 +35,30 @@ jobs:
       - name: Install Android SDK packages
         run: sdkmanager "platform-tools" "platforms;android-37" "build-tools;36.0.0"
 
-      - name: Build preview APK
-        working-directory: Dev-Connect-Mobile/android
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+      - name: Install EAS CLI
+        run: npm install --global eas-cli@22.2.0
+
+      - name: Build preview APK with EAS Local
+        working-directory: Dev-Connect-Mobile
+        run: eas build --platform android --profile preview --local --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Find EAS-built APK
+        id: apk
+        working-directory: Dev-Connect-Mobile
+        run: |
+          APK=$(find . -type f -name '*.apk' -print -quit)
+          if [ -z "$APK" ]; then
+            echo "No APK was produced by EAS Local"
+            exit 1
+          fi
+          echo "path=$APK" >> "$GITHUB_OUTPUT"
+          echo "Found APK: $APK"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: dev-connect-preview-apk
-          path: Dev-Connect-Mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          path: Dev-Connect-Mobile/${{ steps.apk.outputs.path }}
           if-no-files-found: error

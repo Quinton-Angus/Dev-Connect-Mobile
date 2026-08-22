@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#080808",
@@ -56,6 +55,8 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 25,
         gap: 25,
+        alignItems: 'center',
+        width: '100%',
     },
 
     footer: {
